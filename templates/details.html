@@ -1,0 +1,243 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+
+<!--post-default-->
+<section class="section pt-55">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-8 mb-20">
+        {% if messages %} {% for message in messages %}
+
+        <div
+          class="alert alert-{{ message.tags }} alert-dismissible fade show"
+          role="alert"
+        >
+          <strong>{{ message }}</strong>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        {% endfor %} {% endif %}
+
+        <!--Post-single-->
+        <div class="post-single">
+          <div class="post-single-image">
+            <img src="{% static 'assets/img/blog/7.jpg' %}" alt="" />
+          </div>
+          <div class="post-single-content">
+            <a href="" class="categorie">travel</a>
+
+            <h4>{{ post.title }}</h4>
+          </div>
+
+          <div class="post-single-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="image">
+                  <img src="{{ post.thumbnail.url }}" alt="" />
+                </div>
+              </div>
+            </div>
+
+            <p>{{ post.description }}</p>
+
+            <div class="post-single-info">
+              <ul class="list-inline">
+                <li>January 15, 2021</li>
+                <li class="dot"></li>
+                <li>3 comments</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="post-single-footer">
+            <div class="social-media">
+              <ul class="list-inline">
+                <li>
+                  <a href="#" class="color-facebook">
+                    <i class="fab fa-facebook"></i>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="color-twitter">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="color-pinterest">
+                    <i class="fab fa-pinterest"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!--/-->
+
+        <!--widget-comments-->
+        <div class="widget mb-50">
+          <div class="title">
+            <h3>{{ post.comment_count }} Comments</h3>
+          </div>
+
+          <ul class="widget-comments">
+            {% for comment in comments %}
+            <li class="comment-item">
+              <div class="content">
+                <ul class="info list-inline">
+                  <li>{{ comment.name }}</li>
+                  <li class="dot"></li>
+                  <li>{{ comment.creation | date }}</li>
+                </ul>
+                <p>{{ comment.body }}</p>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+
+          <!--Leave-comments-->
+
+          <form
+            action="."
+            method="POST"
+            class="widget-form"
+            id="main_contact_form"
+          >
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="name"
+                    id="inputName"
+                    placeholder="Name*"
+                    aria-label="Name"
+                    required="required"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <textarea
+                    class="form-control"
+                    name="body"
+                    rows="7"
+                    id="descriptionTextarea"
+                    placeholder="Comment*"
+                    required
+                    data-msg="Please enter your message."
+                  ></textarea>
+                </div>
+              </div>
+
+              {% csrf_token %}
+              <div class="col-12">
+                <button type="submit" name="submit" class="btn-custom">
+                  Post Comment
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-4 max-width">
+        <!--widget-author-->
+        <div class="widget">
+          <div class="widget-author">
+            <a href="author.html" class="image">
+              <img src="{% static 'assets/img/author/jonaid.jpg' %}"
+              alt="">
+            </a>
+            <h6>
+              <span>Hi, I'm Jonaid Ahmad </span>
+            </h6>
+            <p>
+              I'm Jonaid Ahmad, husband and father , I love Photography,travel
+              and nature. I'm working as a writer and blogger with experience of
+              5 years until now.
+            </p>
+
+            <div class="social-media">
+              <ul class="list-inline">
+                <li>
+                  <a href="#" class="color-facebook">
+                    <i class="fab fa-facebook"></i>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="color-twitter">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                </li>
+
+                <li>
+                  <a href="#" class="color-pinterest">
+                    <i class="fab fa-pinterest"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!--/-->
+
+        <!--widget-latest-posts-->
+        <div class="widget">
+          <div class="section-title">
+            <h5>Latest Posts</h5>
+          </div>
+          <ul class="widget-latest-posts">
+            {% for post in similar_post %}
+
+            <li class="last-post">
+              <div class="image">
+                <a href="{{ post.get_absolute_url }}">
+                  <img src="{{ post.thumbnail.url }} " alt="..." />
+                </a>
+              </div>
+              <div class="nb">1</div>
+              <div class="content">
+                <p>
+                  <a href="{{ post.get_absolute_url }}">{{ post.short_description }} </a>
+                </p>
+                <small
+                  ><span class="icon_clock_alt"></span>{{ post.creation }}
+                </small>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!--/-->
+
+        <!--widget-categories-->
+        <div class="widget">
+          <div class="section-title">
+            <h5>Categories</h5>
+          </div>
+          <ul class="widget-categories">
+            {% for category in categories %}
+
+            <li>
+              <a href="" class="categorie">{{ category.name }} </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!--/-->
+
+      </div>
+    </div>
+  </div>
+</section>
+<!--/-->
+
+{% endblock body %}

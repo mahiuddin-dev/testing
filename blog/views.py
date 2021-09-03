@@ -22,7 +22,7 @@ def blog_list (request):
         'page_obj':page_obj,
         'categories':categories,
     }
-    return render (request,'blog/index.html',context)
+    return render (request,'index.html',context)
 
 
 def blog_details (request,slug):
@@ -52,7 +52,7 @@ def blog_details (request,slug):
         'categories':categories,
         'similar_post':similar_post,
     }
-    return render (request,'blog/details.html',context)
+    return render (request,'details.html',context)
 
 
 
@@ -84,5 +84,5 @@ def category (request, category_slug=None):
 
     }
 
-    return render (request,'blog/category.html',context)
+    return render (request,'category.html',context)
    

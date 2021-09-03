@@ -1,0 +1,67 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block body %}
+
+<!--masonry-layout-->
+<section class="section masonry-layout pt-45">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card-columns">
+          {% for post in page_obj %}
+
+          <!--Post-1-->
+          <div class="card">
+            <div class="post-card">
+              <div class="post-card-image">
+                <a href="{{ post.get_absolute_url }}">
+                  <img src="{{ post.thumbnail.url }}" alt="" />
+                </a>
+              </div>
+              <div class="post-card-content">
+                <a href="{{category.get_absolute_url}}" class="categorie"
+                  >{{ category.name }}
+                </a>
+                <h5>
+                  <a href="{{ post.get_absolute_url }} ">{{ post.title }} </a>
+                </h5>
+                <p>{{ post.description }}</p>
+                <div class="post-card-info">
+                  <ul class="list-inline">
+                    <li class="dot"></li>
+                    <li>{{ post.creation }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/-->
+          {% endfor %}
+
+          <!--widget-categories-->
+        </div>
+        <!--pagination-->
+        <div class="pagination mt-30">
+          <ul class="list-inline">
+            {% load l10n %} 
+            {% for post in page_obj.paginator.page_range %} 
+                {% if page_obj.number == post %}
+                <li class="active">
+                <a href="?page={{ post }}">{{ post | localize }}</a>
+                </li>
+                {% else %}
+            <li>
+              <a href="?page={{ post }}">{{ post }}</a>
+            </li>
+            {% endif %} 
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/-->
+
+{% endblock body %}
